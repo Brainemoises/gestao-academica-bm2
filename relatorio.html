@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório - Instituto BM²</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #f5f7fa; }
+        .relatorio-container { max-width: 1200px; margin: 30px auto; padding: 20px; }
+        .relatorio-card { background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; margin-bottom: 30px; }
+        .relatorio-header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 40px; text-align: center; }
+        .relatorio-body { padding: 40px; }
+        .section-title { color: #1e3c72; border-left: 4px solid #1e3c72; padding-left: 15px; margin: 30px 0 20px; }
+        .checklist-item { background: #f8f9fa; padding: 10px 15px; margin: 8px 0; border-radius: 10px; }
+        .tech-badge { display: inline-block; background: #1e3c72; color: white; padding: 5px 12px; border-radius: 20px; margin: 3px; font-size: 0.8rem; }
+        .status-aprovado { background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 15px; border-radius: 10px; text-align: center; margin: 20px 0; }
+        @media print { .btn-print { display: none; } body { background: white; } }
+        .btn-print { position: fixed; bottom: 30px; right: 30px; background: #1e3c72; color: white; border: none; padding: 12px 25px; border-radius: 50px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="relatorio-container">
+        <div class="relatorio-card">
+            <div class="relatorio-header">
+                <i class="fas fa-graduation-cap" style="font-size: 60px;"></i>
+                <h1>RELATÓRIO DO SISTEMA</h1>
+                <h3>Instituto de Ciências e Tecnologia - Mentes Limpas (BM²)</h3>
+                <p>Desenvolvido por: <strong>Braine Moisés</strong> | Manica, Moçambique | Junho 2026</p>
+            </div>
+            <div class="relatorio-body">
+                <h2 class="section-title">1. INTRODUÇÃO</h2>
+                <p>O Sistema de Gestão Acadêmica do Instituto BM² foi desenvolvido para gerenciar informações de estudantes, cursos, matrículas, conteúdos, exames, notas e calendário acadêmico, oferecendo uma plataforma completa e integrada.</p>
+
+                <h2 class="section-title">2. OBJETIVOS</h2>
+                <ul><li>✓ Desenvolver uma aplicação web funcional para gestão acadêmica</li><li>✓ Implementar CRUD completo</li><li>✓ Garantir interface responsiva</li><li>✓ Implementar sistema de login diferenciado (Admin/Professor/Estudante)</li><li>✓ Gerar NIB automático para cada estudante</li><li>✓ Sistema de exames com correção automática</li></ul>
+
+                <h2 class="section-title">3. TECNOLOGIAS UTILIZADAS</h2>
+                <div><span class="tech-badge">HTML5</span><span class="tech-badge">CSS3</span><span class="tech-badge">JavaScript</span><span class="tech-badge">Bootstrap 5</span><span class="tech-badge">Font Awesome</span><span class="tech-badge">FullCalendar</span><span class="tech-badge">localStorage</span></div>
+
+                <h2 class="section-title">4. ESTRUTURA DO SISTEMA</h2>
+                <p>Módulos: Dashboard | Estudantes | Cursos | Matrículas | Conteúdos | Exames | Pauta | Calendário | Perfil do Estudante</p>
+
+                <h2 class="section-title">5. REQUISITOS ATENDIDOS</h2>
+                <div class="row"><div class="col-md-6"><div class="checklist-item"><i class="fas fa-check-circle text-success"></i> Página inicial (Dashboard)</div><div class="checklist-item"><i class="fas fa-check-circle text-success"></i> Menu de navegação</div><div class="checklist-item"><i class="fas fa-check-circle text-success"></i> Design organizado</div><div class="checklist-item"><i class="fas fa-check-circle text-success"></i> Responsividade</div></div><div class="col-md-6"><div class="checklist-item"><i class="fas fa-check-circle text-success"></i> Cadastro/Edição/Remoção</div><div class="checklist-item"><i class="fas fa-check-circle text-success"></i> Pesquisa em tempo real</div><div class="checklist-item"><i class="fas fa-check-circle text-success"></i> Validação de formulários</div><div class="checklist-item"><i class="fas fa-check-circle text-success"></i> Sistema de Login</div></div></div>
+
+                <h2 class="section-title">6. INFORMAÇÕES DA INSTITUIÇÃO</h2>
+                <p><strong>Localização:</strong> Manica, Moçambique<br><strong>Fundador:</strong> Residente de Manica<br><strong>NIB da Instituição:</strong> 000100000032367542157 (Banco BIM)<br><strong>Email:</strong> brainemoises@gmail.com</p>
+
+                <h2 class="section-title">7. DIFICULDADES ENCONTRADAS</h2>
+                <ul><li>Gerenciar relacionamentos entre entidades</li><li>Implementar geração automática de NIB</li><li>Sistema de correção automática de exames</li><li>Calendário dinâmico com eventos</li></ul>
+
+                <h2 class="section-title">8. CONCLUSÃO</h2>
+                <p>O sistema atende completamente todos os requisitos propostos, oferecendo uma solução completa e funcional para gestão acadêmica do Instituto BM².</p>
+
+                <div class="status-aprovado"><i class="fas fa-check-circle" style="font-size: 30px;"></i><h3>SISTEMA APROVADO PARA SUBMISSÃO</h3><p>Todos os requisitos foram atendidos com sucesso!</p></div>
+
+                <div class="text-center mt-4"><strong>Braine Moisés</strong><br>Gestão de Sistema de Informação<br>Junho 2026</div>
+            </div>
+        </div>
+    </div>
+    <button class="btn-print" onclick="window.print()"><i class="fas fa-print"></i> Imprimir Relatório</button>
+</body>
+</html>

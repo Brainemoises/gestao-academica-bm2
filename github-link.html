@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub - Instituto BM²</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .github-card { max-width: 600px; width: 100%; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .github-header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color: white; padding: 30px; text-align: center; }
+        .github-body { padding: 30px; }
+        .code-block { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 10px; font-family: monospace; margin: 15px 0; }
+        .btn-github { background: #1e3c72; color: white; padding: 12px 25px; border-radius: 25px; text-decoration: none; display: inline-block; margin: 5px; }
+        .btn-copiar { background: #28a745; color: white; border: none; padding: 5px 15px; border-radius: 5px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="github-card">
+        <div class="github-header"><i class="fab fa-github" style="font-size: 50px;"></i><h2>GitHub do Projeto</h2><p>Instituto BM² - Sistema de Gestão Acadêmica</p></div>
+        <div class="github-body">
+            <h4>Link do Repositório</h4>
+            <div class="code-block" id="repoLink">https://github.com/bmoises/gestao-academica-bm2</div>
+            <button class="btn-copiar" onclick="copiarTexto('repoLink')"><i class="fas fa-copy"></i> Copiar Link</button>
+            <h4 class="mt-4">Comando para Clonar</h4>
+            <div class="code-block" id="comandoGit">git clone https://github.com/bmoises/gestao-academica-bm2.git</div>
+            <button class="btn-copiar" onclick="copiarTexto('comandoGit')"><i class="fas fa-copy"></i> Copiar Comando</button>
+            <div class="text-center mt-4"><a href="dashboard.html" class="btn-github"><i class="fas fa-arrow-left"></i> Voltar ao Sistema</a><a href="#" class="btn-github" id="abrirGitHub" target="_blank"><i class="fab fa-github"></i> Abrir no GitHub</a></div>
+        </div>
+    </div>
+    <script>
+        function copiarTexto(id) { const texto = document.getElementById(id).innerText; navigator.clipboard.writeText(texto); alert('✅ Copiado com sucesso!'); }
+    </script>
+</body>
+</html>

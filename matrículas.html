@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Braine Moisés">
+    <title>Matrículas - Instituto BM²</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="dashboard.html">
+                <i class="fas fa-graduation-cap me-2"></i>
+                Instituto BM²
+                <small class="text-light ms-2">Manica</small>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="estudantes.html">Estudantes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="cursos.html">Cursos</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="matriculas.html">Matrículas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="conteudos.html">Conteúdos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="exames.html">Exames</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pauta.html">Pauta</a></li>
+                    <li class="nav-item"><a class="nav-link" href="calendario.html">Calendário</a></li>
+                    <li class="nav-item"><a class="nav-link" href="relatorio.html">Relatório</a></li>
+                    <li class="nav-item"><a class="nav-link" href="github-link.html">GitHub</a></li>
+                    <li class="nav-item"><a class="nav-link" href="javascript:void(0);" onclick="fazerLogout()">Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col-12 d-flex justify-content-between align-items-center">
+                <h1><i class="fas fa-file-alt"></i> Gestão de Matrículas</h1>
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#matriculaModal" onclick="abrirModalCadastroMatricula()">
+                    <i class="fas fa-plus"></i> Nova Matrícula
+                </button>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <input type="text" id="searchMatricula" class="form-control" placeholder="🔍 Pesquisar matrículas por estudante...">
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Estudante</th>
+                        <th>Matrícula</th>
+                        <th>Curso</th>
+                        <th>Data</th>
+                        <th>Ano/Semestre</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="listaMatriculas"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Matrícula -->
+    <div class="modal fade" id="matriculaModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalMatriculaTitle">Nova Matrícula</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="matriculaForm">
+                        <input type="hidden" id="matriculaId">
+                        <div class="mb-3">
+                            <label>Estudante *</label>
+                            <select id="estudanteId" class="form-control" required>
+                                <option value="">Selecione um estudante...</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Curso *</label>
+                            <select id="cursoMatriculaId" class="form-control" required>
+                                <option value="">Selecione um curso...</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Ano Letivo *</label>
+                            <input type="number" id="anoLetivo" class="form-control" required value="2024">
+                        </div>
+                        <div class="mb-3">
+                            <label>Semestre *</label>
+                            <select id="semestre" class="form-control" required>
+                                <option value="1">1º Semestre</option>
+                                <option value="2">2º Semestre</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Status</label>
+                            <select id="statusMatricula" class="form-control">
+                                <option value="Ativa">Ativa</option>
+                                <option value="Trancada">Trancada</option>
+                                <option value="Concluída">Concluída</option>
+                                <option value="Cancelada">Cancelada</option>
+                            </select>
+                        </div>
+                        <div class="alert alert-info">
+                            <i class="fas fa-credit-card"></i> 
+                            <strong>Informação:</strong> Após matricular, o estudante receberá um NIB para pagamento das mensalidades.
+                            <br><small>NIB da Instituição: 000100000032367542157 (Banco BIM)</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="salvarMatricula()">Salvar Matrícula</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer bg-light mt-5 py-3">
+        <div class="container text-center">
+            <span class="text-muted">
+                Instituto de Ciências e Tecnologia - Mentes Limpas (BM²) | Manica, Moçambique 
+                | Email: brainemoises@gmail.com | NIB: 000100000032367542157 (BIM)
+            </span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // Verificar autenticação
+        if (!isLoggedIn()) {
+            window.location.href = 'index.html';
+        }
+        if (isEstudante()) {
+            window.location.href = 'perfil.html';
+        }
+        
+        function fazerLogout() {
+            sessionStorage.clear();
+            localStorage.removeItem('sessao_usuario_bm2');
+            localStorage.removeItem('tipo_usuario_bm2');
+            window.location.href = 'index.html';
+        }
+        
+        // Carregar dados
+        function carregarMatriculas() {
+            const matriculas = getMatriculas();
+            const searchTerm = document.getElementById('searchMatricula')?.value.toLowerCase() || '';
+            const estudantes = getEstudantes();
+            const cursos = getCursos();
+            
+            let filtered = matriculas;
+            if (searchTerm) {
+                filtered = matriculas.filter(m => {
+                    const estudante = estudantes.find(e => e.id == m.estudanteId);
+                    return estudante && estudante.nome.toLowerCase().includes(searchTerm);
+                });
+            }
+            
+            const tbody = document.getElementById('listaMatriculas');
+            if (filtered.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center">Nenhuma matrícula encontrada</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = filtered.map(m => {
+                const estudante = estudantes.find(e => e.id == m.estudanteId);
+                const curso = cursos.find(c => c.id == m.cursoId);
+                
+                let statusClass = '';
+                if (m.status === 'Ativa') statusClass = 'bg-success';
+                else if (m.status === 'Trancada') statusClass = 'bg-warning';
+                else if (m.status === 'Concluída') statusClass = 'bg-info';
+                else statusClass = 'bg-danger';
+                
+                return `
+                    <tr>
+                        <td>${m.id}</td>
+                        <td><strong>${estudante ? estudante.nome : '-'}</strong></td>
+                        <td><small class="text-muted">${estudante ? estudante.matricula : '-'}</small></td>
+                        <td>${curso ? curso.nome : '-'}</td>
+                        <td>${m.dataMatricula || '-'}</td>
+                        <td>${m.anoLetivo}/${m.semestre}º</td>
+                        <td><span class="badge ${statusClass}">${m.status}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-warning me-1" onclick="editarMatricula(${m.id})" title="Editar">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="excluirMatricula(${m.id})" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="btn btn-sm btn-info" onclick="emitirComprovanteMatricula(${m.id})" title="Comprovante">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function carregarSelects() {
+            const estudantes = getEstudantes();
+            const cursos = getCursos();
+            
+            const selectEstudante = document.getElementById('estudanteId');
+            if (selectEstudante) {
+                const estudantesAtivos = estudantes.filter(e => e.status === 'Ativo');
+                if (estudantesAtivos.length === 0) {
+                    selectEstudante.innerHTML = '<option value="">Nenhum estudante cadastrado</option>';
+                } else {
+                    selectEstudante.innerHTML = '<option value="">Selecione um estudante...</option>' + 
+                        estudantesAtivos.map(e => `<option value="${e.id}">${e.matricula} - ${e.nome}</option>`).join('');
+                }
+            }
+            
+            const selectCurso = document.getElementById('cursoMatriculaId');
+            if (selectCurso) {
+                if (cursos.length === 0) {
+                    selectCurso.innerHTML = '<option value="">Nenhum curso cadastrado</option>';
+                } else {
+                    selectCurso.innerHTML = '<option value="">Selecione um curso...</option>' + 
+                        cursos.map(c => `<option value="${c.id}">${c.codigo} - ${c.nome} (MZN ${(c.preco || 10000).toLocaleString()}/mês)</option>`).join('');
+                }
+            }
+        }
+        
+        function validarMatricula() {
+            const estudanteId = document.getElementById('estudanteId').value;
+            const cursoId = document.getElementById('cursoMatriculaId').value;
+            const anoLetivo = document.getElementById('anoLetivo').value;
+            
+            if (!estudanteId) { alert('❌ Selecione um estudante!'); return false; }
+            if (!cursoId) { alert('❌ Selecione um curso!'); return false; }
+            if (!anoLetivo || anoLetivo < 2020) { alert('❌ Ano letivo inválido!'); return false; }
+            return true;
+        }
+        
+        function salvarMatricula() {
+            if (!validarMatricula()) return;
+            
+            const matricula = {
+                estudanteId: parseInt(document.getElementById('estudanteId').value),
+                cursoId: parseInt(document.getElementById('cursoMatriculaId').value),
+                anoLetivo: parseInt(document.getElementById('anoLetivo').value),
+                semestre: parseInt(document.getElementById('semestre').value),
+                status: document.getElementById('statusMatricula').value
+            };
+            
+            const id = document.getElementById('matriculaId').value;
+            const estudante = getEstudantes().find(e => e.id == matricula.estudanteId);
+            const curso = getCursos().find(c => c.id == matricula.cursoId);
+            
+            if (id) {
+                updateMatricula(id, matricula);
+                alert('✅ Matrícula atualizada com sucesso!');
+            } else {
+                addMatricula(matricula);
+                alert(`✅ Matrícula realizada com sucesso!\n\n📋 Resumo:\nEstudante: ${estudante ? estudante.nome : ''}\nCurso: ${curso ? curso.nome : ''}\nAno: ${matricula.anoLetivo}/${matricula.semestre}\n\n💳 NIB para pagamento: ${estudante ? estudante.nib : 'N/A'}\n\nUtilize o NIB do estudante para fazer depósitos.`);
+            }
+            
+            fecharModalMatricula();
+            carregarMatriculas();
+            if (typeof atualizarDashboard === 'function') atualizarDashboard();
+        }
+        
+        function editarMatricula(id) {
+            const matricula = getMatriculas().find(m => m.id == id);
+            if (matricula) {
+                document.getElementById('matriculaId').value = matricula.id;
+                document.getElementById('estudanteId').value = matricula.estudanteId;
+                document.getElementById('cursoMatriculaId').value = matricula.cursoId;
+                document.getElementById('anoLetivo').value = matricula.anoLetivo;
+                document.getElementById('semestre').value = matricula.semestre;
+                document.getElementById('statusMatricula').value = matricula.status;
+                document.getElementById('modalMatriculaTitle').textContent = 'Editar Matrícula';
+                
+                new bootstrap.Modal(document.getElementById('matriculaModal')).show();
+            }
+        }
+        
+        function excluirMatricula(id) {
+            if (confirm('⚠️ Tem certeza que deseja excluir esta matrícula?')) {
+                deleteMatricula(id);
+                carregarMatriculas();
+                if (typeof atualizarDashboard === 'function') atualizarDashboard();
+                alert('✅ Matrícula excluída com sucesso!');
+            }
+        }
+        
+        function emitirComprovanteMatricula(id) {
+            const matricula = getMatriculas().find(m => m.id == id);
+            if (!matricula) return;
+            
+            const estudante = getEstudantes().find(e => e.id == matricula.estudanteId);
+            const curso = getCursos().find(c => c.id == matricula.cursoId);
+            const instituicao = getInstituicao();
+            
+            const comprovante = `
+========================================
+INSTITUTO DE CIÊNCIAS E TECNOLOGIA
+MENTES LIMPAS (BM²)
+${instituicao.localizacao}
+Fundador: ${instituicao.fundador}
+Email: ${instituicao.email}
+========================================
+
+COMPROVANTE DE MATRÍCULA
+
+Nº Matrícula: ${matricula.id}
+Data: ${new Date().toLocaleDateString('pt-BR')}
+
+DADOS DO ESTUDANTE:
+Nome: ${estudante ? estudante.nome : '-'}
+Matrícula: ${estudante ? estudante.matricula : '-'}
+Email: ${estudante ? estudante.email : '-'}
+
+DADOS DO CURSO:
+Curso: ${curso ? curso.nome : '-'}
+Duração: ${curso ? curso.duracao : '-'} semestres
+Período: ${curso ? curso.periodo : '-'}
+Mensalidade: MZN ${curso ? (curso.preco || 10000).toLocaleString() : '-'}
+
+DADOS DA MATRÍCULA:
+Ano Letivo: ${matricula.anoLetivo}
+Semestre: ${matricula.semestre}º
+Status: ${matricula.status}
+Data da Matrícula: ${matricula.dataMatricula || new Date().toLocaleDateString('pt-BR')}
+
+INFORMAÇÕES BANCÁRIAS:
+NIB do Estudante: ${estudante ? estudante.nib : 'N/A'}
+NIB da Instituição: ${instituicao.nibMae}
+Banco: ${instituicao.banco}
+
+Instruções:
+1. Utilize o NIB do estudante para pagamento
+2. O valor será creditado na conta da instituição
+3. Guarde este comprovante
+
+========================================
+Documento emitido em: ${new Date().toLocaleString('pt-BR')}
+Assinatura: _____________________
+========================================
+            `;
+            
+            const blob = new Blob([comprovante], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `comprovante_matricula_${estudante ? estudante.matricula : matricula.id}.txt`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+            
+            alert('✅ Comprovante de matrícula gerado com sucesso!');
+        }
+        
+        function abrirModalCadastroMatricula() {
+            document.getElementById('matriculaForm').reset();
+            document.getElementById('matriculaId').value = '';
+            document.getElementById('anoLetivo').value = new Date().getFullYear();
+            document.getElementById('modalMatriculaTitle').textContent = 'Nova Matrícula';
+            carregarSelects();
+        }
+        
+        function fecharModalMatricula() {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('matriculaModal'));
+            if (modal) modal.hide();
+        }
+        
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarMatriculas();
+            if (document.getElementById('searchMatricula')) {
+                document.getElementById('searchMatricula').addEventListener('keyup', carregarMatriculas);
+            }
+        });
+    </script>
+</body>
+</html>

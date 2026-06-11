@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Estudante - Instituto BM²</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="perfil.html"><i class="fas fa-graduation-cap me-2"></i>Instituto BM²</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="perfil.html">Meu Perfil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="conteudos.html">Conteúdos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="exames.html">Exames</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pauta.html">Minhas Notas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="calendario.html">Calendário</a></li>
+                    <li class="nav-item"><a class="nav-link" href="javascript:void(0);" onclick="fazerLogout()">Sair</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <i class="fas fa-user-circle" style="font-size: 80px; color: #1e3c72;"></i>
+                        <h3 id="estudanteNome"></h3>
+                        <p id="estudanteEmail"></p>
+                        <p><strong>Matrícula:</strong> <span id="estudanteMatricula"></span></p>
+                        <hr>
+                        <div class="alert alert-info">
+                            <i class="fas fa-credit-card"></i> 
+                            <strong>NIB para Pagamento:</strong><br>
+                            <code class="bg-light p-1" id="estudanteNIB"></code>
+                            <br><small>Utilize este NIB para fazer depósitos</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-header bg-info text-white">
+                        <h5>Informações do Curso</h5>
+                    </div>
+                    <div class="card-body" id="infoCurso"></div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5><i class="fas fa-chart-line"></i> Meu Boletim Escolar</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive" id="boletimEstudante"></div>
+                        <div class="alert alert-secondary mt-3">
+                            <strong>Legenda:</strong> Média ≥ 10 = Aprovado | Média ≥ 7 = Recuperação | Média < 7 = Reprovado
+                        </div>
+                        <button class="btn btn-primary" onclick="window.print()"><i class="fas fa-print"></i> Imprimir Boletim</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        if (!isLoggedIn() || !isEstudante()) window.location.href = 'index.html';
+        
+        const user = getCurrentUser();
+        document.getElementById('estudanteNome').textContent = user.nome;
+        document.getElementById('estudanteEmail').textContent = user.email;
+        document.getElementById('estudanteMatricula').textContent = user.matricula;
+        
+        const estudanteCompleto = getEstudantes().find(e => e.id == user.userId);
+        if (estudanteCompleto && estudanteCompleto.nib) {
+            document.getElementById('estudanteNIB').textContent = estudanteCompleto.nib;
+        }
+        
+        const cursos = getCursos();
+        const curso = cursos.find(c => c.id == user.cursoId);
+        document.getElementById('infoCurso').innerHTML = `
+            <p><strong>Curso:</strong> ${curso ? curso.nome : '-'}</p>
+            <p><strong>Duração:</strong> ${curso ? curso.duracao : '-'} semestres</p>
+            <p><strong>Período:</strong> ${curso ? curso.periodo : '-'}</p>
+            <p><strong>Mensalidade:</strong> MZN ${curso ? (curso.preco || 10000).toLocaleString() : '-'}</p>
+        `;
+        
+        function carregarBoletim() {
+            const notasData = JSON.parse(localStorage.getItem('notas_bm2')) || {};
+            const disciplinas = ['Matemática', 'Português', 'Programação', 'Banco de Dados'];
+            let html = '<table class="table table-bordered"><thead class="table-dark"><tr><th>Disciplina</th><th>1º Bim</th><th>2º Bim</th><th>3º Bim</th><th>4º Bim</th><th>Média</th><th>Faltas</th><th>Status</th></tr></thead><tbody>';
+            let somaMedias = 0;
+            
+            disciplinas.forEach(disp => {
+                const key = `${user.userId}_${disp}`;
+                const notas = notasData[key] || { a1: 0, a2: 0, a3: 0, a4: 0, faltas: 0 };
+                const media = ((notas.a1 + notas.a2 + notas.a3 + notas.a4) / 4).toFixed(1);
+                const status = media >= 10 ? 'Aprovado' : (media >= 7 ? 'Recuperação' : 'Reprovado');
+                const statusClass = media >= 10 ? 'text-success' : (media >= 7 ? 'text-warning' : 'text-danger');
+                somaMedias += parseFloat(media);
+                
+                html += `<tr>
+                    <td>${disp}</td>
+                    <td>${notas.a1}</td><td>${notas.a2}</td><td>${notas.a3}</td><td>${notas.a4}</td>
+                    <td><strong>${media}</strong></td>
+                    <td>${notas.faltas || 0}</td>
+                    <td class="${statusClass}">${status}</td>
+                </tr>`;
+            });
+            
+            const mediaGeral = (somaMedias / disciplinas.length).toFixed(1);
+            const statusGeral = mediaGeral >= 10 ? 'APROVADO' : (mediaGeral >= 7 ? 'RECUPERAÇÃO' : 'REPROVADO');
+            html += `<tr class="table-info"><td colspan="4"><strong>MÉDIA GERAL</strong></td>
+                <td colspan="2"><strong>${mediaGeral}</strong></td>
+                <td colspan="2"><strong>${statusGeral}</strong></td>
+            </tr></tbody></table>`;
+            
+            document.getElementById('boletimEstudante').innerHTML = html;
+        }
+        
+        carregarBoletim();
+        
+        function fazerLogout() {
+            sessionStorage.clear();
+            localStorage.removeItem('sessao_usuario_bm2');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

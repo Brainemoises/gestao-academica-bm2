@@ -1,0 +1,67 @@
+RELATÓRIO DO SISTEMA DE GESTÃO DE ESTUDANTES
+Desenvolvido por: Braine Moises
+Curso: Gestão de Sistema de Informação
+Data: Junho 2026
+
+1. INTRODUÇÃO
+O Sistema de Gestão de Estudantes foi desenvolvido para atender à necessidade de 
+instituições de ensino gerenciarem informações acadêmicas de forma eficiente. 
+O sistema permite cadastrar, editar, remover e pesquisar estudantes, cursos e 
+matrículas, oferecendo uma interface amigável e responsiva.
+
+2. OBJETIVOS
+- Desenvolver uma aplicação web funcional para gestão acadêmica
+- Implementar CRUD completo (Create, Read, Update, Delete)
+- Garantir interface responsiva e intuitiva
+- Validar dados de entrada nos formulários
+- Fornecer dashboard com estatísticas em tempo real
+
+3. TECNOLOGIAS UTILIZADAS
+Front-end:
+- HTML5: Estrutura das páginas
+- CSS3: Estilização e animações
+- JavaScript: Lógica e interatividade
+- Bootstrap 5: Framework CSS responsivo
+- Font Awesome: Ícones vetoriais
+
+Armazenamento:
+- localStorage: Persistência de dados no navegador
+
+4. ESTRUTURA DO SISTEMA
+O sistema é composto por 4 módulos principais:
+- Dashboard: Visão geral com estatísticas
+- Estudantes: CRUD completo de alunos
+- Cursos: CRUD completo de cursos
+- Matrículas: CRUD completo de matrículas
+
+5. REQUISITOS ATENDIDOS
+✅ Página inicial (Dashboard)
+✅ Menu de navegação (Navbar)
+✅ Design organizado e profissional
+✅ Responsividade (Bootstrap + media queries)
+✅ Cadastro de informações (estudantes, cursos, matrículas)
+✅ Edição de dados (formulários com dados preenchidos)
+✅ Remoção de dados (com confirmação)
+✅ Pesquisa/listagem (busca em tempo real)
+✅ Validação de formulários (campos obrigatórios, formatos)
+
+6. DIFICULDADES ENCONTRADAS
+- Gerenciar relacionamentos entre entidades (estudante -> curso)
+- Validar exclusão de registros com dependências
+- Atualizar dashboard em tempo real após operações
+- Garantir responsividade em diferentes dispositivos
+
+Soluções implementadas:
+- Verificação de dependências antes de excluir
+- Funções de atualização automática
+- Media queries e grid do Bootstrap
+
+7. CONCLUSÃO
+O sistema atende completamente aos requisitos propostos, oferecendo uma solução 
+completa para gestão de informações acadêmicas. A aplicação é funcional, responsiva 
+e de fácil utilização, demonstrando as competências desenvolvidas em desenvolvimento web.
+
+8. COMO EXECUTAR
+1. Baixar todos os arquivos mantendo a estrutura de pastas
+2. Abrir o arquivo index.html no navegador
+3. Sistema pronto para uso, dados persistidos automaticamente
